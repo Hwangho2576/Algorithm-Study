@@ -1,0 +1,35 @@
+    public class Solution
+    {
+        public int[] solution(string[] id_list, string[] report, int k)
+        {
+            int[] answer = new int[id_list.Length]; // 결과 배열.
+
+            int[] receive = new int[id_list.Length]; // 신고받은 횟수.
+
+            report = report.Distinct().ToArray();
+
+            // 신고받은 횟수를 기록.
+            for (int i = 0; i < report.Length; i++)
+            {
+                string report_str = report[i].Split(' ')[1];
+                int report_index = Array.IndexOf(id_list, report_str);
+                receive[report_index]++;
+            }
+
+            // 신고받은 횟수가 k보다 높을 시 answer 값을 상승.
+            for (int i = 0; i < report.Length; i++)
+            {
+                string report_str = report[i].Split(' ')[1];
+                int report_index = Array.IndexOf(id_list, report_str);
+
+                if (receive[report_index] >= k)
+                {
+                    string send_str = report[i].Split(' ')[0];
+                    int send_index = Array.IndexOf(id_list, send_str);
+                    answer[send_index]++;
+                }
+            }
+
+            return answer;
+        }
+    }
