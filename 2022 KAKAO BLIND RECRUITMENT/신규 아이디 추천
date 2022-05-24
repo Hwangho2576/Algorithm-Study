@@ -1,0 +1,39 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string new_id) {
+    for (char &ch : new_id) {
+        if (ch >= 'A' && ch <= 'Z') ch += 32;
+    }
+
+    string tmp = "";
+    for (char ch : new_id) {
+        if (ch >= 'a' && ch <= 'z') tmp += ch;
+        if (ch >= '0' && ch <= '9') tmp += ch;
+        if (ch == '-' || ch == '_' || ch == '.') tmp += ch;
+    }
+
+    new_id = tmp;
+    tmp = "";
+    bool flag = false;
+    for (char ch : new_id) {
+        if (!flag && ch == '.') flag = true;
+        else if (flag && ch == '.') continue;
+        else flag = false;
+        tmp += ch;
+    }
+
+    if (tmp.size() > 0 && tmp[0] == '.') tmp = tmp.substr(1);
+    if (tmp.size() > 0 && tmp[tmp.size() - 1] == '.') tmp = tmp.substr(0, tmp.size() - 1);
+
+    if (tmp == "") tmp = "a";
+
+    if (tmp.size() > 15) tmp = tmp.substr(0, 15);
+    if (tmp.size() > 0 && tmp[tmp.size() - 1] == '.') tmp = tmp.substr(0, tmp.size() - 1);
+
+    while (tmp.size() < 3) tmp += tmp[tmp.size() - 1];
+
+    return tmp;
+}
