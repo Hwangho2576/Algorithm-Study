@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Solution
+    {
+        public int solution(string s)
+        {
+            int answer = 0;
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+            dictionary.Add("zero", "0");
+            dictionary.Add("one", "1");
+            dictionary.Add("two", "2");
+            dictionary.Add("three", "3");
+            dictionary.Add("four", "4");
+            dictionary.Add("five", "5");
+            dictionary.Add("six", "6");
+            dictionary.Add("seven", "7");
+            dictionary.Add("eight", "8");
+            dictionary.Add("nine", "9");
+
+            
+            foreach(KeyValuePair<string,string> pair in dictionary)
+            {
+                s = s.Replace(pair.Key, pair.Value);
+            }
+
+            answer = int.Parse(s);
+
+            return answer;
+        }
+    }
