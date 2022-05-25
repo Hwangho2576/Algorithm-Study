@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int answer = 0;
+            int x;
+            int n;
+            string str;
+            List<int> list = new List<int>();
+            int m;
+            bool flag = false;
+
+            str = Console.ReadLine();
+            n = str.Length;
+            x = int.Parse(str);
+
+            if (x < 10)
+            {
+                for(int i = 1; i <=x; i++)
+                {
+                    answer++;
+                }
+            }
+            else if(x < 100)
+            {
+                for(int i = 1; i <=x; i++)
+                {
+                    answer++;
+                }
+            }
+            else
+            {
+                answer = 99;
+
+                for (int i = 100; i <= x; i++)
+                {
+                    list.Clear();
+                    str = i.ToString();
+
+                    for(int j = 0; j <str.Length; j++)
+                        list.Add(int.Parse(str[j].ToString()));
+
+                    m = list[1] - list[0];
+                    flag = true;
+                    for (int j = 0; j < list.Count - 1; j++)
+                    {
+
+                        if (m != list[j + 1] - list[j])
+                        {
+                            flag = false;
+                        }
+
+                    }
+
+                    if (flag == true)
+                        answer++;
+                }
+            }
+
+
+            Console.WriteLine(answer);
+        }
+    }
+}
