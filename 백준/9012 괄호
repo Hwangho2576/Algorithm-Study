@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+            int n;
+            read = Console.ReadLine();
+            n = int.Parse(read);
+
+            List<string> answer = new List<string>();
+            for(int i = 0; i <n; i++)
+            {
+                int lCount = 0;
+                int rCount = 0;
+
+                string q = Console.ReadLine();
+
+                bool flag = true;
+
+                for (int j = 0; j <q.Length; j++)
+                {
+
+                    if (q[j] == '(') lCount++;
+                    else rCount++;
+
+                    if (rCount > lCount)
+                        flag = false;
+                }
+
+
+                if (flag == false)
+                    answer.Add("NO");
+                //else
+                //    answer.Add("YES");
+                else
+                {
+                    if (rCount == lCount)
+                        answer.Add("YES");
+                    else
+                        answer.Add("NO");
+                
+                }
+
+            }
+
+            for(int i = 0; i <n; i++)
+            {
+                Console.WriteLine(answer[i]);
+            }
+        }
+    }
+}
