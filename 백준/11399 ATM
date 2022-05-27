@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read = Console.ReadLine();
+            int n = int.Parse(read);
+            int[] dp = new int[n+1];
+            List<int> list = new List<int>();
+
+            read = Console.ReadLine();
+
+            for (int i = 0; i <n; i++)
+            {
+                int k = int.Parse(read.Split()[i]);
+
+                list.Add(k);
+
+            }
+
+            list.Sort();
+
+            dp[1] = list[0];
+            for (int j = 2; j <= n; j++)
+            {
+                dp[j] = dp[j - 1] + list[j - 1];
+            }
+
+            int sum = 0;
+            for(int i = 1; i <=n; i++)
+            {
+                sum += dp[i];
+            }
+            Console.WriteLine(sum);
+
+        }
+
+
+    }
+}
