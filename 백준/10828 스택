@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Stack<int> stack = new Stack<int>();
+
+            string read;
+            int n;
+            read = Console.ReadLine();
+            n = int.Parse(read);
+
+            string[] readArray = new string[n];
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i <n; i++)
+            {
+                readArray[i] = Console.ReadLine();
+            }
+
+
+            for (int i = 0; i<n; i++)
+            {
+                sb.Clear();
+
+                switch (readArray[i].Split(" ")[0])
+                {
+                    case "push":
+                        int k = int.Parse(readArray[i].Split(" ")[1]);
+                        stack.Push(k);
+                        break;
+
+                    case "pop":
+                        if (stack.Count == 0)
+                        {
+                            sb.Append(-1);
+                            Console.WriteLine(sb);
+                        }
+                        else
+                        {
+                            int x = stack.Pop();
+                            sb.Append(x);
+                            Console.WriteLine(sb);
+                        }
+                        break;
+
+                    case "size":
+                        sb.Append(stack.Count);
+                        Console.WriteLine(sb);
+                        break;
+
+                    case "empty":
+                        if (stack.Count == 0)
+                        {
+                            sb.Append(1);
+                            Console.WriteLine(sb);
+                        }
+                        else
+                        {
+                            sb.Append(0);
+                            Console.WriteLine(sb);
+                        }
+                        break;
+
+                    case "top":
+                        if (stack.Count == 0)
+                        {
+                            sb.Append(-1);
+                            Console.WriteLine(-1);
+                        }
+                        else
+                        {
+                            sb.Append(stack.Peek());
+                            Console.WriteLine(sb);
+                        }
+                        break;
+
+                }
+            }
+
+        }
+    }
+}
