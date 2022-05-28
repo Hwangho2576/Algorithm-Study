@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int n = int.Parse(read);
+
+            for(int i = 0; i <n; i++)
+            {
+                read = Console.ReadLine();
+                int m = int.Parse(read);
+
+                long[] dp = new long[m + 4];
+
+                dp[1] = 1;
+                dp[2] = 1;
+                dp[3] = 1;
+                
+                for (int j = 4; j <= m; j++)
+                {
+                    dp[j] = dp[j - 2] + dp[j - 3];
+                }
+
+                Console.WriteLine(dp[m]);
+            }
+
+        }
+
+       
+
+    }
+}
