@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int n = int.Parse(read);
+
+            read = Console.ReadLine();
+            int k = int.Parse(read);
+
+            bool[,] node = new bool[n + 1, n + 1];
+            bool[] visit = new bool[n + 1];
+
+            for(int i = 0; i <k; i++)
+            {
+                read = Console.ReadLine();
+                int x = int.Parse(read.Split()[0]);
+                int y = int.Parse(read.Split()[1]);
+
+                node[x, y] = true;
+                node[y, x] = true;
+            }
+
+            int count = -1;
+            BFS(1);
+
+            Console.WriteLine(count);
+
+            void BFS(int x)
+            {
+                count = -1;
+                Queue<int> queue = new Queue<int>();
+                queue.Enqueue(x);
+
+                while(queue.Count != 0)
+                {
+                    x = queue.Dequeue();
+                    visit[x] = true;
+                    count++;
+
+                    for(int i = 1; i <= n; i++)
+                    {
+                        if (visit[i] == true || node[x, i] == false) continue;
+
+                        visit[i] = true;
+                        queue.Enqueue(i);
+                    }
+
+                }
+                
+            }
+        }
+
+
+
+    }
+}
