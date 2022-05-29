@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int n = int.Parse(read);
+            Stack<int> stack = new Stack<int>();
+
+            StringBuilder sb = new StringBuilder();
+            int k = 0;
+            
+            for(int i = 0; i <n; i++)
+            {
+                read = Console.ReadLine();
+                int m = int.Parse(read);
+
+                if (stack.Count == 0)
+                {
+                    stack.Push(k+1);
+                    k = k + 1;
+                    sb.Append("+\n");
+
+                }
+
+                if (stack.Peek() < m)
+                {
+                    for (int j = k + 1; j <= m; j++)
+                    {
+                        stack.Push(j);
+                        sb.Append("+\n");
+                    }
+
+                    k = m;
+                }
+                else if(stack.Peek() > m)
+                {
+                    sb.Clear();
+                    sb.Append("NO\n");
+                    Console.WriteLine(sb);
+                    return;
+                }
+                if(stack.Peek() == m)
+                {
+                    stack.Pop();
+                    sb.Append("-\n");
+                }
+            }
+            Console.WriteLine(sb);
+
+        }
+
+    }
+}
