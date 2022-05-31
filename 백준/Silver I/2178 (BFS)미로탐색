@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int n = int.Parse(read.Split()[0]);
+            int m = int.Parse(read.Split()[1]);
+
+            int[,] board = new int[n, m];
+            
+            for(int i = 0; i < n; i++)
+            {
+                read = Console.ReadLine();
+            
+                for(int j = 0; j <m; j++)
+                {
+                    board[i,j] = int.Parse(read[j].ToString());
+                }
+            }
+
+            Tuple<int, int>[] dir = new Tuple<int, int>[4];
+            dir[0] = new Tuple<int, int>(-1, 0);
+            dir[1] = new Tuple<int, int>(1, 0);
+            dir[2] = new Tuple<int, int>(0, -1);
+            dir[3] = new Tuple<int, int>(0, 1);
+            int[,] visit = new int[n, m];
+            int[,] dist = new int[n, m];
+            dist[0, 0] = 1;
+            BFS();
+            Console.WriteLine(dist[n-1,m-1]);
+
+            void BFS()
+            {
+                Queue<Tuple<int, int>> queue = new Queue<Tuple<int, int>>();
+
+                queue.Enqueue(new Tuple<int, int>(0, 0));
+                visit[0, 0] = 1;
+
+                while(queue.Count != 0)
+                {
+                    var tuple = queue.Dequeue();
+
+                    for(int i =0; i< 4; i++)
+                    {
+                        Tuple<int,int> newTuple = new Tuple<int,int>
+                            (tuple.Item1 + dir[i].Item1, tuple.Item2 + dir[i].Item2);
+
+                        if (newTuple.Item1 < 0 || newTuple.Item2 < 0 ||
+                            newTuple.Item1 >= n || newTuple.Item2 >= m)
+                            continue;
+
+                        if (visit[newTuple.Item1, newTuple.Item2] == 1 ||
+                            board[newTuple.Item1, newTuple.Item2] == 0)
+                            continue;
+
+                        visit[newTuple.Item1, newTuple.Item2] = 1;
+                        dist[newTuple.Item1, newTuple.Item2] = dist[tuple.Item1,tuple.Item2] + 1;
+
+                        queue.Enqueue(newTuple);
+                    }
+
+                }
+            }
+
+        }
+    }
+}
