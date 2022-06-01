@@ -1,0 +1,178 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int n = int.Parse(read);
+
+            char[,] board = new char[n, n];
+            int[,] visit = new int[n, n];
+            Queue<(int, int)> queueR = new Queue<(int, int)>();
+            Queue<(int, int)> queueG = new Queue<(int, int)>();
+            Queue<(int, int)> queueB = new Queue<(int, int)>();
+            Queue<(int, int)> queueRG = new Queue<(int, int)>();
+            for (int i = 0; i< n; i++)
+            {
+                read = Console.ReadLine();
+
+
+                for(int j = 0; j<n; j++)
+                {
+                    board[i, j] = read[j];
+
+                    //if (board[i, j] == 'R')
+                    //    queueR.Enqueue((i, j));
+                    //else if (board[i, j] == 'G')
+                    //    queueG.Enqueue((i, j));
+                    //else if (board[i, j] == 'B')
+                    //    queueB.Enqueue((i, j));
+                }
+            }
+            int countR = 0;
+            int countG = 0;
+            int countB = 0;
+            int countRG = 0;
+            int[] dx = { -1, 1, 0, 0 };
+            int[] dy = { 0, 0, -1, 1 };
+            
+            for (int i = 0; i <n; i++)
+            {
+                for(int j = 0; j <n; j++)
+                {
+                    if (visit[i, j] == 1 || board[i,j] != 'R') continue;
+                    queueR.Enqueue((i, j));
+                    visit[i, j] = 1;
+                    countR++;
+                    
+                    while (queueR.Count != 0)
+                    {
+                        var tuple = queueR.Dequeue();
+
+                        for(int k = 0; k <4; k++)
+                        {
+                            int nx = tuple.Item1 + dx[k];
+                            int ny = tuple.Item2 + dy[k];
+
+                            if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+                            if (visit[nx, ny] == 1 || board[nx, ny] != 'R') continue;
+
+                            visit[nx, ny] = 1;
+                            queueR.Enqueue((nx, ny));
+                        }
+                    }
+                }
+            }
+            
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (visit[i, j] == 1 || board[i,j] != 'G') continue;
+                    queueG.Enqueue((i, j));
+                    visit[i, j] = 1;
+                    countG++;
+
+                    while (queueG.Count != 0)
+                    {
+                        var tuple = queueG.Dequeue();
+
+                        for (int k = 0; k < 4; k++)
+                        {
+                            int nx = tuple.Item1 + dx[k];
+                            int ny = tuple.Item2 + dy[k];
+
+                            if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+                            if (visit[nx, ny] == 1 || board[nx, ny] != 'G') continue;
+
+                            visit[nx, ny] = 1;
+                            queueG.Enqueue((nx, ny));
+                        }
+                    }
+                }
+            }
+
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (visit[i, j] == 1 || board[i,j] != 'B') continue;
+                    queueB.Enqueue((i, j));
+                    visit[i, j] = 1;
+                    countB++;
+
+                    while (queueB.Count != 0)
+                    {
+                        var tuple = queueB.Dequeue();
+
+                        for (int k = 0; k < 4; k++)
+                        {
+                            int nx = tuple.Item1 + dx[k];
+                            int ny = tuple.Item2 + dy[k];
+
+                            if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+                            if (visit[nx, ny] == 1 || board[nx, ny] != 'B') continue;
+
+                            visit[nx, ny] = 1;
+                            queueB.Enqueue((nx, ny));
+                        }
+                    }
+                }
+            }
+
+            for(int i = 0; i <n; i++)
+            {
+                for(int j = 0; j <n; j++)
+                {
+                    visit[i, j] = 0;
+                }
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (visit[i, j] == 1 || board[i, j] == 'B') continue;
+                    queueRG.Enqueue((i, j));
+                    visit[i, j] = 1;
+                    countRG++;
+
+                    while (queueRG.Count != 0)
+                    {
+                        var tuple = queueRG.Dequeue();
+
+                        for (int k = 0; k < 4; k++)
+                        {
+                            int nx = tuple.Item1 + dx[k];
+                            int ny = tuple.Item2 + dy[k];
+
+                            if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+                            if (visit[nx, ny] == 1 || board[nx, ny] == 'B') continue;
+
+                            visit[nx, ny] = 1;
+                            queueRG.Enqueue((nx, ny));
+                        }
+                    }
+                }
+            }
+
+            int max = Math.Max(countR, countG);
+            Console.WriteLine((countR + countG + countB) + " " + (countRG + countB));
+
+
+
+        }
+
+
+
+    }
+}
