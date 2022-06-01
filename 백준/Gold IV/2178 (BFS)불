@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int n = int.Parse(read.Split()[0]);
+            int m = int.Parse(read.Split()[1]);
+
+            char[,] board = new char[n, m];
+            Queue<(int, int)> queueF = new Queue<(int, int)>();
+            Queue<(int, int)> queueM = new Queue<(int, int)>();
+            int[] dx = { -1, 1, 0, 0 };
+            int[] dy = { 0, 0, -1, 1 };
+            int[,] distF = new int[n, m];
+            int[,] distM = new int[n, m];
+
+            for(int i = 0; i < n; i++)
+            {
+                for(int j = 0; j <m; j++)
+                {
+                    distF[i, j] = -1;
+                    distM[i, j] = -1;
+                }
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                read = Console.ReadLine();
+                
+                for (int j = 0; j < m; j++)
+                {
+                    board[i, j] = read[j];
+
+                    if(board[i,j] == 'J')
+                    {
+                        queueM.Enqueue((i, j));
+                        distM[i, j] = 0;
+                    }
+                    else if(board[i,j] == 'F')
+                    {
+                        queueF.Enqueue((i, j));
+                        distF[i, j] = 0;
+                    }
+                   
+                }
+
+            }
+
+
+            while (queueF.Count != 0)
+            {
+                var tupleF = queueF.Dequeue();
+
+                for (int i = 0; i < 4; i++)
+                {
+                    int nx = tupleF.Item1 + dx[i];
+                    int ny = tupleF.Item2 + dy[i];
+
+                    if (nx < 0 || ny < 0 || nx >= n || ny >= m) continue;
+                    if (board[nx, ny] == '#' || distF[nx, ny] >= 0) continue;
+
+                    distF[nx, ny] = distF[tupleF.Item1, tupleF.Item2] + 1;
+                    queueF.Enqueue((nx, ny));
+                }
+            }
+
+            while (queueM.Count != 0)
+            {
+                var tupleM = queueM.Dequeue();
+
+                for (int i = 0; i < 4; i++)
+                {
+                    int nx = tupleM.Item1 + dx[i];
+                    int ny = tupleM.Item2 + dy[i];
+
+                    if (nx < 0 || ny < 0 || nx >= n || ny >= m)
+                    {
+                        Console.WriteLine(distM[tupleM.Item1, tupleM.Item2] + 1);
+                        return;
+                    }
+
+                    if (distM[nx, ny] >= 0 || board[nx, ny] == '#') continue;
+                    if (distM[tupleM.Item1, tupleM.Item2] + 1 >= distF[nx,ny] && distF[nx,ny] != -1) continue;
+
+                    distM[nx, ny] = distM[tupleM.Item1, tupleM.Item2] + 1;
+                    queueM.Enqueue((nx, ny));
+                }
+            }
+            
+
+
+            Console.WriteLine("IMPOSSIBLE");
+            return;
+        }
+
+    }
+}
