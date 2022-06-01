@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int t = int.Parse(read);
+
+            for (int cnt = 0; cnt < t; cnt++)
+            {
+                read = Console.ReadLine();
+                int n = int.Parse(read.Split()[0]);
+                int m = int.Parse(read.Split()[1]);
+                int k = int.Parse(read.Split()[2]);
+
+                int[,] board = new int[n, m];
+                int[,] visit = new int[n, m];
+                int[,] dist = new int[n, m];
+                Queue<(int, int)> queue = new Queue<(int, int)>();
+
+                for (int i = 0; i < k; i++)
+                {
+                    read = Console.ReadLine();
+                    string[] read2 = read.Split();
+                    int x = int.Parse(read2[0]);
+                    int y = int.Parse(read2[1]);
+
+                    board[x, y] = 1;
+                }
+
+                int[] dx = { -1, 1, 0, 0 };
+                int[] dy = { 0, 0, -1, 1 };
+                int answer = 0;
+                for(int i = 0; i <n; i++)
+                {
+                    for(int j = 0; j <m; j++)
+                    {
+                        if (board[i, j] == 0 || visit[i, j] == 1) continue;
+
+                        answer++;
+                        queue.Enqueue((i, j));
+
+                        while(queue.Count != 0)
+                        {
+                            var tuple = queue.Dequeue();
+                            for(int a = 0; a <4; a++)
+                            {
+                                int nx = tuple.Item1 + dx[a];
+                                int ny = tuple.Item2 + dy[a];
+
+                                if (nx < 0 || ny < 0 || nx >= n || ny >= m) continue;
+                                if (visit[nx, ny] == 1 || board[nx, ny] == 0) continue;
+
+                                visit[nx, ny] = 1;
+                                queue.Enqueue((nx, ny));
+                            }
+                        }
+                    }
+                }
+
+                Console.WriteLine(answer);
+
+
+            }
+        }
+
+
+
+    }
+}
