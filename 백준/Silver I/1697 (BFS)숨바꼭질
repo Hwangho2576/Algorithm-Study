@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int n = int.Parse(read.Split()[0]);
+            int m = int.Parse(read.Split()[1]);
+
+            int[] board = new int[200001];
+            int[] visit = new int[200001];
+            Queue<int> queue = new Queue<int>();
+            int[] dist = new int[200001];
+            
+            queue.Enqueue(n); 
+            visit[n] = 1;
+
+            while (queue.Count != 0)
+            {
+                int k = queue.Dequeue();
+                int nk1 = k + 1;
+                int nk2 = k - 1;
+                int nk3 = k * 2;
+
+                if (nk1 >= 0 && nk1 <= 200000)
+                {
+                    if(visit[nk1] == 0)
+                    {
+                        dist[nk1] = dist[k] + 1;
+                        visit[nk1] = 1;
+                        queue.Enqueue(nk1);
+                    }
+                }
+                if(nk2 >= 0 && nk2 <= 200000)
+                {
+                    if(visit[nk2] == 0)
+                    {
+                        dist[nk2] = dist[k] + 1;
+                        visit[nk2] = 1;
+                        queue.Enqueue(nk2);
+                            
+                    }
+                }
+                if(nk3 >= 0 && nk3 <= 200000)
+                {
+                    if(visit[nk3] == 0)
+                    {
+                        dist[nk3] = dist[k] + 1;
+                        visit[nk3] = 1;
+                        queue.Enqueue(nk3);
+                    }
+                }
+
+            }
+
+            Console.WriteLine(dist[m]);
+
+        }
+
+
+
+    }
+}
