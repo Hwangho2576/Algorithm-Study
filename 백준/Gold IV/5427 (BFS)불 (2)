@@ -1,0 +1,121 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int t = int.Parse(read);
+
+            for(int i = 0; i < t; i++)
+            {
+                read = Console.ReadLine();
+                int n = int.Parse(read.Split()[1]);
+                int m = int.Parse(read.Split()[0]);
+
+                char[,] board = new char[n, m];
+                int[,] visitF = new int[n, m];
+                int[,] visitM = new int[n, m];
+                int[,] distF = new int[n, m];
+                int[,] distM = new int[n, m];
+
+                Queue<(int, int)> queueF = new Queue<(int, int)>();
+                Queue<(int, int)> queueM = new Queue<(int, int)>();
+
+                bool exit = false;
+
+                for(int j = 0; j < n; j++)
+                {
+                    read = Console.ReadLine();
+
+                    for(int k = 0; k <m; k++)
+                    {
+                        board[j, k] = read[k];
+
+                        if (board[j, k] == '*')
+                        {
+                            queueF.Enqueue((j, k));
+                            distF[j, k] = 0;
+                        }
+                        else if (board[j, k] == '@')
+                        {
+                            queueM.Enqueue((j, k));
+                            distM[j, k] = 0;
+                        }
+                        else
+                        {
+                            distF[j, k] = -1;
+                            distM[j, k] = -1;
+                        }
+                    }
+                }
+
+                int[] dx = { -1, 1, 0, 0 };
+                int[] dy = { 0, 0, -1, 1 };
+
+                while(queueF.Count != 0)
+                {
+                    (int, int) pair = queueF.Dequeue();
+                    visitF[pair.Item1, pair.Item2] = 1;
+
+                    for(int j = 0; j <4; j++)
+                    {
+                        int nx = pair.Item1 + dx[j];
+                        int ny = pair.Item2 + dy[j];
+
+                        if (nx < 0 || ny < 0 || nx >= n || ny >= m)
+                            continue;
+
+                        if (board[nx, ny] == '#' || distF[nx,ny] >= 0)
+                            continue;
+
+                        visitF[nx, ny] = 1;
+                        distF[nx, ny] = distF[pair.Item1, pair.Item2] + 1;
+                        queueF.Enqueue((nx, ny));
+                    }
+                }
+
+                while (queueM.Count != 0 && !exit)
+                {
+                    (int, int) pair = queueM.Dequeue();
+                    visitM[pair.Item1, pair.Item2] = 1;
+
+                    for (int j = 0; j < 4; j++)
+                    {
+                        int nx = pair.Item1 + dx[j];
+                        int ny = pair.Item2 + dy[j];
+
+                        if (nx < 0 || ny < 0 || nx >= n || ny >= m)
+                        {
+                            //탈출
+                            exit = true;
+                            Console.WriteLine(distM[pair.Item1, pair.Item2] + 1);
+                            break;
+                        }
+                        
+                        if (board[nx, ny] == '#' || distM[nx,ny] >= 0)
+                            continue;
+
+                        if (distF[nx, ny] <= distM[pair.Item1, pair.Item2] + 1 && distF[nx,ny] != -1) continue;
+
+                        visitM[nx, ny] = 1;
+                        distM[nx, ny] = distM[pair.Item1, pair.Item2] + 1;
+                        queueM.Enqueue((nx, ny));
+                    }
+                }
+
+                if(!exit) Console.WriteLine("IMPOSSIBLE");
+                exit = false;
+            }
+            
+
+
+        }
+    }
+}
