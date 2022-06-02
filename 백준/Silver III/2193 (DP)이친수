@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication3
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+            read = Console.ReadLine();
+            int n = int.Parse(read);
+
+
+            long[] dp = new long[n + 2];
+            dp[1] = 1;
+            dp[2] = 1;
+
+            for(int i = 3; i <= n; i++)
+            {
+                dp[i] = dp[i - 1] + dp[i - 2];
+            }
+
+            Console.WriteLine(dp[n]);
+
+        }
+    }
+}
