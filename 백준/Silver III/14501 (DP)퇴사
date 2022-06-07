@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            int answer = 0;
+            read = Console.ReadLine();
+            int n = int.Parse(read);
+
+            (int, int)[] t = new (int, int)[n];
+
+            string[] read2;
+            for (int i = 0; i < n; i++)
+            {
+                read2 = Console.ReadLine().Split();
+
+                t[i].Item1 = int.Parse(read2[0]);
+                t[i].Item2 = int.Parse(read2[1]);
+
+            }
+
+            int[] dp = new int[n + 1];
+            for(int i = 0; i < n; i++)
+            {
+                if (i + t[i].Item1 <= n)
+                {
+                    dp[i + t[i].Item1] = Math.Max(dp[i] + t[i].Item2, dp[i + t[i].Item1]);
+                    answer = dp[i + t[i].Item1];
+                }
+
+                dp[i + 1] = Math.Max(dp[i + 1], dp[i]);
+                answer = Math.Max(answer, dp[i + 1]);
+
+            }
+
+            Console.WriteLine(answer);
+        }
+    }
+}
