@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            read = Console.ReadLine();
+            int n = int.Parse(read);
+
+            string[] read2;
+            for(int i = 0; i <n; i++)
+            {
+                read2 = Console.ReadLine().Split();
+
+                (int, int, int) a;
+                (int, int, int) b;
+                
+                a.Item1 = int.Parse(read2[0]);
+                a.Item2 = int.Parse(read2[1]);
+                a.Item3 = int.Parse(read2[2]);
+                b.Item1 = int.Parse(read2[3]);
+                b.Item2 = int.Parse(read2[4]);
+                b.Item3 = int.Parse(read2[5]);
+
+                double xdist = Math.Abs(a.Item1 - b.Item1);
+                double ydist = Math.Abs(a.Item2 - b.Item2);
+                double lineDist = Math.Sqrt(Math.Pow(xdist, 2) + Math.Pow(ydist, 2));
+
+                if (a.Item1 == b.Item1 && a.Item2 == b.Item2)
+                {
+                    if (a.Item3 == b.Item3)
+                        Console.WriteLine(-1);
+                    else
+                    {
+                        Console.WriteLine(0);
+                    }
+                }
+                else
+                {
+                    if (lineDist == a.Item3 + b.Item3)
+                        Console.WriteLine(1);
+                    else if (lineDist == Math.Abs(a.Item3 - b.Item3))
+                        Console.WriteLine(1);
+                    else if (lineDist > a.Item3 + b.Item3)
+                        Console.WriteLine(0);
+                    else if (lineDist < Math.Abs(a.Item3 - b.Item3))
+                        Console.WriteLine(0);
+                    else if (lineDist < a.Item3 + b.Item3)
+                        Console.WriteLine(2);
+                    else if (lineDist > Math.Abs(a.Item3 - b.Item3))
+                        Console.WriteLine(2);
+                }
+            }
+            
+        }
+    }
+}
