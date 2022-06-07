@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Cs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string read;
+
+            int answer = 0;
+            read = Console.ReadLine();
+            int n = int.Parse(read);
+
+            string[] read2;
+            int docCnt = 0;
+            int docNum = 0;
+
+            for(int i = 0; i < n; i++)
+            {
+                read2 = Console.ReadLine().Split();
+
+                docCnt = int.Parse(read2[0]);
+                docNum = int.Parse(read2[1]);
+
+                read2 = Console.ReadLine().Split();
+
+                Queue<(int, int)> queue = new Queue<(int, int)>();
+                List<int> list = new List<int>();
+
+                for(int j = 0; j< docCnt; j++)
+                {
+                    queue.Enqueue((j, int.Parse(read2[j])));
+                    list.Add(int.Parse(read2[j]));
+                }
+
+                list.Sort();
+                list.Reverse();
+                int cnt = 0;
+                while(queue.Count != 0)
+                {
+                    (int, int) pair = queue.Dequeue();
+
+                    if(list[0] == pair.Item2)
+                    {
+                        list.RemoveAt(0);
+                        cnt++;
+
+                        if(docNum == pair.Item1)
+                        {
+                            Console.WriteLine(cnt);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        queue.Enqueue(pair);
+                    }
+                }
+
+                
+            }
+        }
+    }
+}
